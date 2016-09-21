@@ -1,7 +1,10 @@
 # SystemSound
 系统声音和自定义声音播放
 
-引入框架AudioToolbox.framework
+###百度经验
+http://jingyan.baidu.com/article/eb9f7b6d7bc5ba869264e863.html 待提交
+
+###引入框架AudioToolbox.framework
 ```
 #import <AudioToolbox/AudioToolbox.h>
 ````
@@ -33,9 +36,6 @@ AudioServicesPlaySystemSound(soundId);
     }
 }
 ```
-###百度经验
-http://jingyan.baidu.com/article/eb9f7b6d7bc5ba869264e863.html
-
 
 ##效果图
 ![](https://github.com/cjq002/SystemSound/raw/master/Media/demo1.png)

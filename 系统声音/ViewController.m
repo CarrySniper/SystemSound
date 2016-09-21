@@ -11,7 +11,6 @@
 #import "SystemSoundModel.h"
 
 @interface ViewController (){
-    
     NSMutableArray *_dataArray;      //返回数据
 }
 
@@ -26,18 +25,23 @@
     // Do any additional setup after loading the view, typically from a nib.
     
     NSString *path = [[NSBundle mainBundle] pathForResource:@"SystemSound" ofType:@"plist"];
-    NSMutableArray *sound = [NSMutableArray arrayWithContentsOfFile:path];
+    NSMutableArray *soundAry = [NSMutableArray arrayWithContentsOfFile:path];
+    
+    NSDictionary *dictionary = soundAry[0];
+    NSString *category = dictionary[@"Category"];
+    NSString *fileName = dictionary[@"FileName"];
+    SystemSoundID soundId = [dictionary[@"SoundID"] intValue];
     
     _dataArray = [NSMutableArray array];
     
-    [sound enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+    // 列举对象所有子对象，相当于遍历，也可以使用for循环代理。
+    [soundAry enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         SystemSoundModel *model = [SystemSoundModel new];
         [model setValuesForKeysWithDictionary:obj];
         [_dataArray addObject:model];
         
         [self.tableView reloadData];
     }];
-    
 }
 
 - (IBAction)playSound:(id)sender {
@@ -73,18 +77,30 @@
     cell.textLabel.text = [NSString stringWithFormat:@"%ld %@", (long)indexPath.row,model.Category];
     
     return cell;
-    
 }
 
+#pragma mark - UITableView delegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     SystemSoundModel *model = _dataArray[indexPath.row];
     SystemSoundID soundId = [model.SoundID intValue];
     AudioServicesPlaySystemSound(soundId);
-    
 }
 
+#pragma mark - UITextField delegate
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+    [self.view endEditing:YES];
+    return YES;
+}
+
+/**
+ 播放自定义本地声音
+ 
+ @param fileName 文件名 包含后缀
+ */
 - (void)playSoundWithFileName:(NSString *)fileName
 {
     SystemSoundID soundID;
@@ -95,13 +111,6 @@
     }else{
         AudioServicesPlaySystemSound(soundID);
     }
-}
-
-- (BOOL)textFieldShouldReturn:(UITextField *)textField
-{
-    [textField resignFirstResponder];
-    [self.view endEditing:YES];
-    return YES;
 }
 
 - (void)didReceiveMemoryWarning {

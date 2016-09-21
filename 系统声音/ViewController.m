@@ -70,7 +70,7 @@
     }
     
     SystemSoundModel *model = _dataArray[indexPath.row];
-    cell.textLabel.text = model.Category;
+    cell.textLabel.text = [NSString stringWithFormat:@"%ld %@", (long)indexPath.row,model.Category];
     
     return cell;
     

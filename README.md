@@ -2,7 +2,7 @@
 系统声音和自定义声音播放
 
 ###百度经验
-http://jingyan.baidu.com/article/eb9f7b6d7bc5ba869264e863.html 待提交
+http://jingyan.baidu.com/article/ed2a5d1f656ba509f6be179e.html
 
 ###引入框架AudioToolbox.framework
 ```
